@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
     "groq-sdk": "^0.7.0"
   }
 }
