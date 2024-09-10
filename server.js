@@ -59,19 +59,25 @@ program
     // Combine data if user input multiple files
     const outputData = results.join("\n");
 
-    // Process the data using Groq
-    const processedDataUsingGroq = await getGroqChatCompletion(outputData);
+    try {
+      // Process the data using Groq
+      const processedDataUsingGroq = await getGroqChatCompletion(outputData);
 
-    // Write the output to a file or stdout
-    if (options.output) {
-      if (options.debug) {
-        process.stderr.write(
-          `Debug: Output will be written to: ${options.output}`
-        );
+      // Write the output to a file or stdout
+      if (options.output) {
+        if (options.debug) {
+          process.stderr.write(
+            `Debug: Output will be written to: ${options.output}`
+          );
+        }
+        fs.writeFileSync(path.resolve(options.output), processedDataUsingGroq);
+      } else {
+        process.stdout.write(processedDataUsingGroq);
       }
-      fs.writeFileSync(path.resolve(options.output), processedDataUsingGroq);
-    } else {
-      process.stdout.write(processedDataUsingGroq);
+    } catch (err) {
+      process.stderr.write(
+        `Error: Error processing data with Groq: ${err}. \n`
+      );
     }
   });
 
