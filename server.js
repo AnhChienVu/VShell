@@ -1,6 +1,8 @@
 const { Command } = require("commander");
 const path = require("path");
 const fs = require("fs");
+const { Groq } = require("groq-sdk");
+require("dotenv").config();
 const program = new Command();
 
 // Define CLI's name
@@ -19,7 +21,7 @@ program
   .description("Process one or more files")
   .option("-o, --output <file>", "Specifying output file")
   .arguments("[files...]")
-  .action((files) => {
+  .action(async (files) => {
     const options = program.opts();
 
     if (files.length === 0) {
@@ -54,19 +56,40 @@ program
       return fs.readFileSync(filePath, "utf-8");
     });
 
+    // Combine data if user input multiple files
     const outputData = results.join("\n");
 
+    // Process the data using Groq
+    const processedDataUsingGroq = await getGroqChatCompletion(outputData);
+
+    // Write the output to a file or stdout
     if (options.output) {
       if (options.debug) {
         process.stderr.write(
           `Debug: Output will be written to: ${options.output}`
         );
       }
-      fs.writeFileSync(path.resolve(options.output), outputData);
+      fs.writeFileSync(path.resolve(options.output), processedDataUsingGroq);
     } else {
-      process.stdout.write(outputData);
+      process.stdout.write(processedDataUsingGroq);
     }
   });
+
+// Intergrating with Groq
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+async function getGroqChatCompletion(data) {
+  const chatCompletion = await groq.chat.completions.create({
+    messages: [
+      {
+        role: "user",
+        content: data,
+      },
+    ],
+    model: "llama3-8b-8192",
+  });
+  return chatCompletion.choices[0]?.message?.content || "";
+}
 
 // Parse command-line arguments
 program.parse(process.argv);
