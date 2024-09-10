@@ -1,0 +1,15 @@
+{
+  "name": "vshell",
+  "version": "0.0.1",
+  "description": "It is a CLI tool that will process input source files with an LLM to generate an output",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anh Chien Vu",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "groq-sdk": "^0.7.0"
+  }
+}
