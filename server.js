@@ -14,7 +14,8 @@ const CLI_VERSION = "0.0.1";
 program.version(CLI_VERSION);
 program
   .option("-d, --debug", "output extra debugging")
-  .option("-u, --update", "update to the latest version");
+  .option("-u, --update", "update to the latest version")
+  .option("-m, --model", "specify the model to use");
 
 // Define a command to handle file inputs
 program
