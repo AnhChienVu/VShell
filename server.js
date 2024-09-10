@@ -15,7 +15,13 @@ program.version(CLI_VERSION);
 program
   .option("-d, --debug", "output extra debugging")
   .option("-u, --update", "update to the latest version")
-  .option("-m, --model", "specify the model to use");
+  .option("-m, --model", "specify the model to use")
+  .option(
+    "-t, --temperature <number>",
+    "set the temperature for the model (Groq)",
+    parseFloat,
+    process.env.GROQ_TEMPERATURE || 0.2
+  );
 
 // Define a command to handle file inputs
 program
@@ -62,7 +68,10 @@ program
 
     try {
       // Process the data using Groq
-      const processedDataUsingGroq = await getGroqChatCompletion(outputData);
+      const processedDataUsingGroq = await getGroqChatCompletion(
+        outputData,
+        options
+      );
 
       // Write the output to a file or stdout
       if (options.output) {
@@ -85,7 +94,7 @@ program
 // Intergrating with Groq
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-async function getGroqChatCompletion(data) {
+async function getGroqChatCompletion(data, options) {
   const chatCompletion = await groq.chat.completions.create({
     messages: [
       {
@@ -94,6 +103,7 @@ async function getGroqChatCompletion(data) {
       },
     ],
     model: "llama3-8b-8192",
+    temperature: options.temperature || process.env.GROQ_TEMPERATURE,
   });
   return chatCompletion.choices[0]?.message?.content || "";
 }
