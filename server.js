@@ -21,7 +21,9 @@ program
     "-t, --temperature <number>",
     "set the temperature for the model (Groq)",
     parseFloat,
-    process.env.GROQ_TEMPERATURE || 0.2
+    process.env.GROQ_TEMPERATURE
+      ? parseFloat(process.env.GROQ_TEMPERATURE)
+      : 0.7
   );
 
 // Define a command to handle file inputs
@@ -104,7 +106,8 @@ async function getGroqChatCompletion(data, options) {
       },
     ],
     model: "llama3-8b-8192",
-    temperature: options.temperature || process.env.GROQ_TEMPERATURE,
+    temperature:
+      options.temperature || parseFloat(process.env.GROQ_TEMPERATURE),
   });
   return chatCompletion.choices[0]?.message?.content || "";
 }
