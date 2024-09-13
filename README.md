@@ -13,11 +13,15 @@ VShell is a powerful command-line interface (CLI) tool that leverages a Large La
 # Installation
 To install and set up VShell, follow these steps:
 1. Ensure Node.js is installed on your system.
-2.  Create a Groq API Key.
+2.  Create a [Groq API Key](https://console.groq.com/login).
 3.  Clone the VShell repository to your local machine.
 4.  Navigate to the project folder in your terminal and run: npm install
 5. Link the package globally: npm link
 6. Create a .env file to store your Groq API key and other necessary configuration values.
+   '''
+   #.env file
+   GROQ_API_KEY=your_groq_api_key
+   '''
 
 # Usage
 To run VShell, use the following command:
