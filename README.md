@@ -24,8 +24,27 @@ To install and set up VShell, follow these steps:
    '''
 
 # Usage
-To run VShell, use the following command:
-  ``vshell file_name(s) <arguements>``
+Essentially, if you are using Node.js, you have to run it by:
+   ``node server.js file_name(s) <arguements>``
+So if you do not want to write node server.js everytime you run, instead using vshell, you can follow these instructions below:
+1. Ensure Your Project is Set Up: Make sure you have your project files ready, including server.js and .env.
+2. Add a bin Field to package.json: Ensure your package.json has a bin field that points to your server.js file. Here’s an example:
+   ```
+   {
+     "bin": {
+    "vshell": "./server.js"
+     },
+     "scripts": {
+    "start": "node server.js"
+     },
+   }
+   ```
+3. Ensure the server.js file has executable permissions:
+   ```chmod +x server.js```
+4. Use npm link to create a global symlink for your package:
+   ```npm link```
+5. To run VShell, use the following command:
+   ```vshell file_name(s) <arguements>```
 
 # Options
   - -V, --version : Output the version number.
