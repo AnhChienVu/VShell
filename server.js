@@ -4,6 +4,10 @@ const path = require("path");
 const fs = require("fs");
 const { Groq } = require("groq-sdk");
 require("dotenv").config();
+const promptAI = require("./ai");
+const defaultPrompt = require("./defaultPrompt");
+const getFileContent = require("./getFileContent");
+
 const program = new Command();
 
 // Define CLI's name
@@ -43,74 +47,18 @@ program
       process.exit(1);
     }
 
-    // Process each file in argurment list
-    const results = files.map((file) => {
-      // convert a file path to an absolute path
-      const filePath = path.resolve(file);
-
-      // Log debug information
-      if (options.debug) {
-        process.stderr.write(`Debug: Resolving file path: ${filePath}. \n`);
-
-        if (!fs.existsSync(filePath)) {
-          process.stderr.write(`Error: File not found: ${filePath}. \n`);
-          process.exit(1);
-        }
-        if (fs.statSync(filePath).isDirectory()) {
-          process.stderr.write(`Error: Path is a directory: ${filePath}. \n`);
-          process.exit(1);
-        }
-        process.stderr.write(`Debug: Processing file: ${filePath}. \n`);
-      }
-
-      return fs.readFileSync(filePath, "utf-8");
-    });
-
     // Combine data if user input multiple files
-    const outputData = results.join("\n");
+    const outputData = getFileContent(files, options);
 
-    try {
-      // Process the data using Groq
-      const processedDataUsingGroq = await getGroqChatCompletion(
-        outputData,
-        options
-      );
-
-      // Write the output to a file or stdout
-      if (options.output) {
-        if (options.debug) {
-          process.stderr.write(
-            `Debug: Output will be written to: ${options.output}`
-          );
-        }
-        fs.writeFileSync(path.resolve(options.output), processedDataUsingGroq);
-      } else {
-        process.stdout.write(processedDataUsingGroq);
-      }
-    } catch (err) {
-      process.stderr.write(
-        `Error: Error processing data with Groq: ${err}. \n`
+    if (options.temperature) {
+      promptAI(defaultPrompt + outputData, options.temperature, options.output);
+    } else {
+      promptAI(
+        defaultPrompt + outputData,
+        process.env.GROQ_TEMPERATURE,
+        options.output
       );
     }
   });
-
-// Intergrating with Groq
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-
-async function getGroqChatCompletion(data, options) {
-  const chatCompletion = await groq.chat.completions.create({
-    messages: [
-      {
-        role: "user",
-        content: data,
-      },
-    ],
-    model: "llama3-8b-8192",
-    temperature:
-      options.temperature || parseFloat(process.env.GROQ_TEMPERATURE),
-  });
-  return chatCompletion.choices[0]?.message?.content || "";
-}
-
 // Parse command-line arguments
 program.parse(process.argv);
