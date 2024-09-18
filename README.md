@@ -32,10 +32,10 @@ So if you do not want to write node server.js everytime you run, instead using v
    ```
    {
      "bin": {
-    "vshell": "./server.js"
+    "vshell": "src/server.js"
      },
      "scripts": {
-    "start": "node server.js"
+    "start": "node src/server.js"
      },
    }
    ```
@@ -51,7 +51,7 @@ So if you do not want to write node server.js everytime you run, instead using v
   - -d, --debug : Enable detailed debug output.
   - -u, --update : Update VShell to the latest version.
   - -m, --model <model> : Specify the LLM model to use.
-  - -t, --temperature <number> : Set the temperature parameter for the model (Groq) (default: 0.2).
+  - -T, --temperature <number> : Set the temperature parameter for the model (Groq) (default: 0.2).
   - -o, --output <file> : Specify an output file to save the results.
   - -h, --help : Display help for VShell commands.
 
