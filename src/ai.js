@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs");
-const promtpGroq = require("./ai_config/grogConfig");
+const promtpGroq = require("../ai_config/grogConfig");
 
 async function promptAI(prompt, temperature, options) {
   if (typeof temperature === "string") {
@@ -13,19 +13,7 @@ async function promptAI(prompt, temperature, options) {
   }
   process.stderr.write(`Info: Prompting AI with temperature: ${temperature}\n`);
   try {
-    const { response, promptTokens, responseTokens } = await initializeModel(
-      prompt,
-      temperature
-    );
-
-    // Show token usage
-    if (options.tokenUsage) {
-      process.stderr.write(
-        `Info: Prompt Token Usages: ${promptTokens}
-      Response Token Usages:${responseTokens}
-      Completed Token Usages: ${promptTokens + responseTokens}\n`
-      );
-    }
+    const { response } = await initializeModel(prompt, temperature);
 
     // Handle output
     if (options.outputFile) {

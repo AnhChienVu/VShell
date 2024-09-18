@@ -2,12 +2,12 @@
   "name": "vshell",
   "version": "0.0.1",
   "description": "It is a CLI tool that will process input source files with an LLM to generate an output",
-  "main": "server.js",
+  "main": "src/server.js",
   "bin": {
-    "vshell": "./server.js"
+    "vshell": "src/server.js"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node src/server.js"
   },
   "author": "Anh Chien Vu",
   "license": "ISC",

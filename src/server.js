@@ -28,8 +28,7 @@ program
     process.env.GROQ_TEMPERATURE
       ? parseFloat(process.env.GROQ_TEMPERATURE)
       : 0.7
-  )
-  .option("-t, --token-usage", "report token usage");
+  );
 
 // Define a command to handle file inputs
 program
