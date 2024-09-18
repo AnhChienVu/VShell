@@ -25,8 +25,16 @@ async function promptGroq(prompt, temperature = 0.5) {
       top_p: 1,
     });
 
+    // Count the number of tokens from prompt
+    const promptTokens = prompt.split(/\s+/).length;
+
+    // Response from Groq
     const response = chatCompletion.choices[0]?.message?.content || "";
-    return response;
+
+    // Count the number of tokens from response
+    const responseTokens = response.split(/\s+/).length;
+
+    return { response, promptTokens, responseTokens };
   } catch (error) {
     process.stderr.write(`Error: Error processing data with Groq: ${err}. \n`);
   }
