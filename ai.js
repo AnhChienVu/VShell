@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const promtpGroq = require("./ai_config/grogConfig");
 
-async function promptAI(prompt, temperature, outputFile) {
+async function promptAI(prompt, temperature, options) {
   if (typeof temperature === "string") {
     //Convert to number
     const tempNum = parseFloat(temperature);
@@ -11,13 +11,29 @@ async function promptAI(prompt, temperature, outputFile) {
     }
     temperature = tempNum;
   }
-  process.stderr.write(
-    `Debug: Prompting AI with temperature: ${temperature}\n`
-  );
+  process.stderr.write(`Info: Prompting AI with temperature: ${temperature}\n`);
   try {
-    const response = await initializeModel(prompt, temperature);
-    process.stderr.write(`Debug: Output file: ${outputFile}\n`);
-    handleOutput(response, outputFile);
+    const { response, promptTokens, responseTokens } = await initializeModel(
+      prompt,
+      temperature
+    );
+
+    // Show token usage
+    if (options.tokenUsage) {
+      process.stderr.write(
+        `Info: Prompt Token Usages: ${promptTokens}
+      Response Token Usages:${responseTokens}
+      Completed Token Usages: ${promptTokens + responseTokens}\n`
+      );
+    }
+
+    // Handle output
+    if (options.outputFile) {
+      process.stderr.write(`Debug: Output file: ${options.outputFile}\n`);
+      handleOutput(response, outputFile);
+    } else {
+      process.stdout.write("\n\n" + response);
+    }
   } catch (error) {
     throw new Error(error);
   }
@@ -28,13 +44,8 @@ async function initializeModel(prompt, temperature) {
 }
 
 function handleOutput(response, outputFile) {
-  if (outputFile) {
-    process.stderr.write(`Debug: Output will be written to: ${outputFile}`);
-    const outputPath = path.resolve(outputFile);
-    fs.writeFileSync(outputPath, response);
-  } else {
-    process.stdout.write(response);
-    return;
-  }
+  process.stderr.write(`Debug: Output will be written to: ${outputFile}`);
+  const outputPath = path.resolve(outputFile);
+  fs.writeFileSync(outputPath, response);
 }
 module.exports = promptAI;
