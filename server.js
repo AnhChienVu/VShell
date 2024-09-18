@@ -22,13 +22,14 @@ program
   .option("-u, --update", "update to the latest version")
   .option("-m, --model", "specify the model to use")
   .option(
-    "-t, --temperature <number>",
+    "-T, --temperature <number>",
     "set the temperature for the model (Groq)",
     parseFloat,
     process.env.GROQ_TEMPERATURE
       ? parseFloat(process.env.GROQ_TEMPERATURE)
       : 0.7
-  );
+  )
+  .option("-t, --token-usage", "report token usage");
 
 // Define a command to handle file inputs
 program
@@ -51,12 +52,12 @@ program
     const outputData = getFileContent(files, options);
 
     if (options.temperature) {
-      promptAI(defaultPrompt + outputData, options.temperature, options.output);
+      promptAI(defaultPrompt + outputData, options.temperature, options);
     } else {
       promptAI(
         defaultPrompt + outputData,
         process.env.GROQ_TEMPERATURE,
-        options.output
+        options
       );
     }
   });
