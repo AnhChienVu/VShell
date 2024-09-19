@@ -16,9 +16,9 @@ async function promptAI(prompt, temperature, options) {
     const { response } = await initializeModel(prompt, temperature);
 
     // Handle output
-    if (options.outputFile) {
-      process.stderr.write(`Debug: Output file: ${options.outputFile}\n`);
-      handleOutput(response, outputFile);
+    if (options.output) {
+      process.stderr.write(`Debug: Output file: ${options.output}\n`);
+      handleOutput(response, options.output);
     } else {
       process.stdout.write("\n\n" + response);
     }
