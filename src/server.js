@@ -21,6 +21,7 @@ program
   .option("-d, --debug", "output extra debugging")
   .option("-u, --update", "update to the latest version")
   .option("-m, --model", "specify the model to use")
+  .option("-t, --token-usage", "specify the usage of token for prompt and response") 
   .option(
     "-T, --temperature <number>",
     "set the temperature for the model (Groq)",
@@ -29,6 +30,7 @@ program
       ? parseFloat(process.env.GROQ_TEMPERATURE)
       : 0.7
   );
+  
 
 // Define a command to handle file inputs
 program

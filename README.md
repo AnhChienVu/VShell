@@ -54,6 +54,7 @@ So if you do not want to write node server.js everytime you run, instead using v
   - -T, --temperature <number> : Set the temperature parameter for the model (Groq) (default: 0.2).
   - -o, --output <file> : Specify an output file to save the results.
   - -h, --help : Display help for VShell commands.
+  - -t, --token-usage : Speicfy specify the usage of token for prompt and response
 
 # Example
 To process README.md with a custom temperature setting and save the result to output.txt, use:

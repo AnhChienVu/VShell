@@ -13,7 +13,16 @@ async function promptAI(prompt, temperature, options) {
   }
   process.stderr.write(`Info: Prompting AI with temperature: ${temperature}\n`);
   try {
-    const { response } = await initializeModel(prompt, temperature);
+    const { response, tokenInfo } = await initializeModel(prompt, temperature);
+
+    console.log("*******************")
+    console.log(options);
+    console.log("*******************")
+  
+    console.log("==================")
+    console.log(tokenInfo);
+    console.log("==================")
+    
 
     // Handle output
     if (options.outputFile) {
