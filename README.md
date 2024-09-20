@@ -1,6 +1,11 @@
 # VShell
 
 VShell is a powerful command-line interface (CLI) tool that leverages a Large Language Model (LLM) to process input files and generate a README file that will explain the source code functionaility and how to use it. Just imagine if someone give you a source code, and you want to have an overall idea about what it does, then use my application, it will give you a picture of it.Besides, it integrates with the OpenAI Chat Completions API (Groq) to deliver enhanced functionality for your data processing needs.
+# Demo
+
+
+https://github.com/user-attachments/assets/cd0679f1-82b6-4547-9291-a6374744fd70
+
 
 # Features
 
