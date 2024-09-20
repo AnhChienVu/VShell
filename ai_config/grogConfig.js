@@ -21,19 +21,18 @@ async function promptGroq(prompt, temperature = 0.5) {
       ],
       model: "llama3-8b-8192",
       temperature,
-      max_tokens: 1024,
+      max_tokens: 2048,
       top_p: 1,
     });
 
     // Response from Groq
     const response = chatCompletion.choices[0]?.message?.content || "";
-    
+
     // Retrieve Token Usage from Response
     const promptToken = chatCompletion.usage.prompt_tokens;
     const completionToken = chatCompletion.usage.completion_tokens;
-    const totalToken = chatCompletion.usage.total_tokens
-    const tokenInfo = {promptToken, completionToken, totalToken};
-
+    const totalToken = chatCompletion.usage.total_tokens;
+    const tokenInfo = { promptToken, completionToken, totalToken };
 
     return { response, tokenInfo };
   } catch (error) {
