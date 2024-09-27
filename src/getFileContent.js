@@ -1,5 +1,6 @@
 const path = require("path");
 const fs = require("fs");
+const glob = require("glob");
 
 function getFileContent(files, options) {
   // Create an array to store all files
@@ -22,8 +23,10 @@ function getFileContent(files, options) {
         process.stderr.write(
           `Debug: File path is a directory: ${filePath}. \n`
         );
-        const directoryFiles = fs
-          .readdirSync(filePath)
+
+        // Get all files in a directory and subdirectories
+        const directoryFiles = glob
+          .sync("**/*", { cwd: filePath, nodir: true })
           .map((f) => path.join(filePath, f));
         allFiles = allFiles.concat(directoryFiles);
       } else {
