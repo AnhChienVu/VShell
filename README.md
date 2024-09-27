@@ -9,8 +9,8 @@ https://github.com/user-attachments/assets/cd0679f1-82b6-4547-9291-a6374744fd70
 
 # Features
 
-- Accepts multiple input files as command-line arguments for streamlined batch processing.
-- Streams output directly to the terminal via stdout by default.
+- Accepts multiple input files as well as folders that has subfolders and files within as command-line arguments for streamlined batch processing.
+- Streams output directly to the terminal via stdout by adding `-s/--stream` flag.
 - Supports the option to save results to a specified output file instead of displaying them in the terminal.
 - Integrates seamlessly with OpenAI’s Chat Completions API (Groq) to process input data.
 - Logs detailed information about errors and debugging to stderr for easy troubleshooting.
@@ -67,6 +67,7 @@ So if you do not want to write node server.js everytime you run, instead using v
 - -o, --output <file> : Specify an output file to save the results.
 - -h, --help : Display help for VShell commands.
 - -t, --token-usage : Speicfy specify the usage of token for prompt and response
+- -s, --stream: Stream the output to `stdout` in real time
 
 # Example
 
