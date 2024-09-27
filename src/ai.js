@@ -13,22 +13,25 @@ async function promptAI(prompt, temperature, options) {
   }
   process.stderr.write(`Info: Prompting AI with temperature: ${temperature}\n`);
   try {
-    const { response, tokenInfo } = await initializeModel(prompt, temperature);
+    const { response, tokenInfo } = await initializeModel(
+      prompt,
+      temperature,
+      options
+    );
 
-    console.log("*******************")
+    console.log("*******************");
     console.log(options);
-    console.log("*******************")
-  
-    console.log("==================")
+    console.log("*******************");
+
+    console.log("==================");
     console.log(tokenInfo);
-    console.log("==================")
-    
+    console.log("==================");
 
     // Handle output
     if (options.output) {
       process.stderr.write(`Debug: Output file: ${options.output}\n`);
       handleOutput(response, options.output);
-    } else {
+    } else if (!options.stream) {
       process.stdout.write("\n\n" + response);
     }
   } catch (error) {
@@ -36,8 +39,8 @@ async function promptAI(prompt, temperature, options) {
   }
 }
 
-async function initializeModel(prompt, temperature) {
-  return await promtpGroq(prompt, temperature);
+async function initializeModel(prompt, temperature, options) {
+  return await promtpGroq(prompt, temperature, options);
 }
 
 function handleOutput(response, outputFile) {
