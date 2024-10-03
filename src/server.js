@@ -89,18 +89,18 @@ program
       process.exit(1);
     }
 
+    // Final configuration from program
+    const finalConfig = {
+      model: options.model || config.model,
+      temperature: options.temperature || config.temperature,
+    };
+    console.log(`temperature: ${finalConfig.temperature}`);
+    console.log(`model: ${finalConfig.model}`);
+
     // Combine data if user input multiple files
     const outputData = getFileContent(files, options);
 
-    if (options.temperature) {
-      promptAI(defaultPrompt + outputData, options.temperature, options);
-    } else {
-      promptAI(
-        defaultPrompt + outputData,
-        process.env.GROQ_TEMPERATURE,
-        options
-      );
-    }
+    promptAI(defaultPrompt + outputData, finalConfig.temperature, options);
   });
 // Parse command-line arguments
 program.parse(process.argv);
