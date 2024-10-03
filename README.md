@@ -14,7 +14,7 @@ https://github.com/user-attachments/assets/cd0679f1-82b6-4547-9291-a6374744fd70
 - Integrates seamlessly with OpenAI’s Chat Completions API (Groq) to process input data.
 - Logs detailed information about errors and debugging to stderr for easy troubleshooting.
 - Supports the use of a .env file to configure API keys and other setup values automatically.
-- Allows optional configuration of model parameters such as temperature for chat completion processing.
+- Allows optional configuration of model parameters such as temperature for chat completion processing through a configuration file.
 
 # Installation
 
@@ -30,7 +30,25 @@ To install and set up VShell, follow these steps:
    #.env file
    GROQ_API_KEY=your_groq_api_key
    '''
-7. Use `.toml` file in the project’s root directory to update default configuration.
+
+## Configuration with TOML
+
+VShell allows users to set default configuration values via a `.config.toml` file. This is useful for defining reusable options without passing them as command-line arguments each time.
+
+1. Create a .config.toml file in your **system’s home directory** or make a copy of the provided sample file
+
+   ```bash
+   cp ./.toml ~/.config.toml
+   ```
+
+2. Add the necessary configuration options in TOML format. Below is an example of how the file should look:
+
+   ```toml
+   model = "llama3-8b-8192"
+   temperature = 0.7
+   ```
+
+3. Command-line arguments will always override the values provided in `.config.toml`. For instance, if you set the model in the file but pass a different model through the command line, the latter will take precedence.
 
 # Usage
 

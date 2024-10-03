@@ -1,5 +1,9 @@
-# Configuration file to set options for VShell
-# (note: values passed via arguments will override these values)
+# Sample Configuration for VShell
+# 
+# This is a sample TOML configuration file to set default options for VShell.
+# To use it, create a `.config.toml` file in your system's home directory.
+# 
+# Note: Any options passed directly via command-line arguments will override the values in this file.
 
 # Specify the model to use from GROQ : string
 model = "llama3-8b-8192"
