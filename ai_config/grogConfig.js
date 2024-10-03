@@ -19,7 +19,7 @@ async function promptGroq(prompt, temperature = 0.5, options) {
           content: prompt,
         },
       ],
-      model: "llama3-8b-8192",
+      model: options.model ? options.model : "llama3-8b-8192", // Use a fallback model if no model provided
       temperature,
       max_tokens: 2048,
       top_p: 1,
