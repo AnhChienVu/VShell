@@ -6,7 +6,7 @@ const fs = require("fs");
 const { Groq } = require("groq-sdk");
 const toml = require("smol-toml");
 require("dotenv").config();
-// const promptAI = require("./ai");
+const promptAI = require("./ai");
 const defaultPrompt = require("./defaultPrompt");
 const getFileContent = require("./getFileContent");
 
@@ -21,8 +21,18 @@ function loadConfig() {
     // Get all files in the home directory
     const files = fs.readdirSync(homeDir);
     // Filter out .toml files
-    const tomlFiles = files.filter((file) => file.endsWith(".toml"));
+    const tomlFiles = files.filter(
+      (file) => file.endsWith(".toml") && file.startsWith(".")
+    );
+
+    // There is no .toml file in the home directory
     if (tomlFiles.length === 0) {
+      process.stderr.write(
+        `Warning*: No .toml config file found in the home directory
+          You need to create a .toml file in your home directory to use the CLI
+          Or you need to provide argumnents to the CLI
+          Program still running with default configuration for model and temperature\n\n`
+      );
       return null;
     }
     // Parse the first .toml file found
@@ -57,7 +67,11 @@ program.version(CLI_VERSION);
 program
   .option("-d, --debug", "output extra debugging")
   .option("-u, --update", "update to the latest version")
-  .option("-m, --model", "specify the model to use <model>", config?.model)
+  .option(
+    "-m, --model",
+    "specify the model to use <model>",
+    config?.model || "llama3-8b-8192"
+  )
   .option(
     "-t, --token-usage",
     "specify the usage of token for prompt and response"
@@ -67,9 +81,7 @@ program
     "-T, --temperature <number>",
     "set the temperature for the model (Groq)",
     parseFloat,
-    process.env.GROQ_TEMPERATURE
-      ? parseFloat(process.env.GROQ_TEMPERATURE)
-      : config?.temperature || 0.7 // Fallback to config or default to 0.7
+    config?.temperature || 0.7 // Fallback to config or default to 0.7
   );
 
 // Define a command to handle file inputs
@@ -94,8 +106,10 @@ program
       model: options.model || config.model,
       temperature: options.temperature || config.temperature,
     };
-    console.log(`temperature: ${finalConfig.temperature}`);
-    console.log(`model: ${finalConfig.model}`);
+    if (options.debug) {
+      process.stderr.write(`Debug: temperature: ${finalConfig.temperature}`);
+      process.stderr.write(`Debug: model: ${finalConfig.model}`);
+    }
 
     // Combine data if user input multiple files
     const outputData = getFileContent(files, options);
