@@ -3,10 +3,30 @@ const { Command } = require("commander");
 const path = require("path");
 const fs = require("fs");
 const { Groq } = require("groq-sdk");
+const toml = require("smol-toml");
 require("dotenv").config();
 const promptAI = require("./ai");
 const defaultPrompt = require("./defaultPrompt");
 const getFileContent = require("./getFileContent");
+
+/**
+ * Parse data from a toml configuration file
+ * @param {string} filepath
+ * @returns parsed configuration data
+ * @throws Error if parsing operation fails
+ */
+function loadConfig(filepath) {
+  try {
+    const data = fs.readFileSync(filepath, "utf-8");
+    return toml.parse(data);
+  } catch (err) {
+    // Output error except non-existent file error
+    if (err.code !== "ENOENT") console.error("Error:", err);
+  }
+}
+
+// Load configuration from config.toml
+const config = loadConfig("../config.toml");
 
 const program = new Command();
 
@@ -17,6 +37,7 @@ program.name(CLI_NAME);
 //versioning CLI
 const CLI_VERSION = "0.0.1";
 program.version(CLI_VERSION);
+
 program
   .option("-d, --debug", "output extra debugging")
   .option("-u, --update", "update to the latest version")
