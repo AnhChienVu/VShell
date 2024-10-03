@@ -14,25 +14,28 @@ function getFileContent(files, options) {
     // Log debug information
     if (options.debug) {
       process.stderr.write(`Debug: Processing file path: ${filePath}. \n`);
-
-      if (!fs.existsSync(filePath)) {
-        process.stderr.write(`Error: File not found: ${filePath}. \n`);
-        process.exit(1);
-      }
-      if (fs.statSync(filePath).isDirectory()) {
+    }
+    if (!fs.existsSync(filePath)) {
+      process.stderr.write(`Error: File not found: ${filePath}. \n`);
+      process.exit(1);
+    }
+    if (fs.statSync(filePath).isDirectory()) {
+      if (options.debug) {
         process.stderr.write(
           `Debug: File path is a directory: ${filePath}. \n`
         );
-
-        // Get all files in a directory and subdirectories
-        const directoryFiles = glob
-          .sync("**/*", { cwd: filePath, nodir: true })
-          .map((f) => path.join(filePath, f));
-        allFiles = allFiles.concat(directoryFiles);
-      } else {
-        process.stderr.write(`Debug: File path is a file: ${filePath}. \n`);
-        allFiles.push(filePath);
       }
+
+      // Get all files in a directory and subdirectories
+      const directoryFiles = glob
+        .sync("**/*", { cwd: filePath, nodir: true })
+        .map((f) => path.join(filePath, f));
+      allFiles = allFiles.concat(directoryFiles);
+    } else {
+      if (options.debug) {
+        process.stderr.write(`Debug: File path is a file: ${filePath}. \n`);
+      }
+      allFiles.push(filePath);
     }
   });
 
