@@ -26,7 +26,7 @@ function loadConfig(filepath) {
 }
 
 // Load configuration from config.toml
-const config = loadConfig("../config.toml");
+const config = loadConfig("../.toml");
 
 const program = new Command();
 
@@ -41,7 +41,7 @@ program.version(CLI_VERSION);
 program
   .option("-d, --debug", "output extra debugging")
   .option("-u, --update", "update to the latest version")
-  .option("-m, --model", "specify the model to use")
+  .option("-m, --model", "specify the model to use <model>", config.model)
   .option(
     "-t, --token-usage",
     "specify the usage of token for prompt and response"
@@ -53,7 +53,7 @@ program
     parseFloat,
     process.env.GROQ_TEMPERATURE
       ? parseFloat(process.env.GROQ_TEMPERATURE)
-      : 0.7
+      : config.temperature || 0.7 // Fallback to config or default to 0.7
   );
 
 // Define a command to handle file inputs
