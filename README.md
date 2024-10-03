@@ -33,9 +33,9 @@ To install and set up VShell, follow these steps:
 
 ## Configuration with TOML
 
-VShell allows users to set default configuration values via a `.config.toml` file. This is useful for defining reusable options without passing them as command-line arguments each time.
+VShell allows users to set default configuration values via a `.toml` file. This is useful for defining reusable options without passing them as command-line arguments each time.
 
-1. Create a .config.toml file in your **system’s home directory** or make a copy of the provided sample file
+1. Create a `.toml` file in your **system’s home directory** or make a copy of the provided sample file
 
    ```bash
    cp ./.toml ~/.config.toml
@@ -48,7 +48,7 @@ VShell allows users to set default configuration values via a `.config.toml` fil
    temperature = 0.7
    ```
 
-3. Command-line arguments will always override the values provided in `.config.toml`. For instance, if you set the model in the file but pass a different model through the command line, the latter will take precedence.
+3. Command-line arguments will always override the values provided in `.toml` config file. For instance, if you set the model in the file but pass a different model through the command line, the latter will take precedence.
 
 # Usage
 

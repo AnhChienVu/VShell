@@ -11,14 +11,23 @@ const defaultPrompt = require("./defaultPrompt");
 const getFileContent = require("./getFileContent");
 
 /**
- * Parse data from a TOML configuration file
- * @param {string} filepath - Path to the TOML config file
- * @returns Parsed configuration data or null if file doesn't exist
- * @throws Error if the file can't be parsed as TOML
+ * Find and load the first .toml config file from the home directory.
+ * @returns {Object|null} Parsed configuration data or null if no file is found
+ * @throws {Error} if the file exists but can't be parsed as TOML
  */
-function loadConfig(filepath) {
+function loadConfig() {
+  const homeDir = os.homedir();
   try {
-    const data = fs.readFileSync(filepath, "utf-8");
+    // Get all files in the home directory
+    const files = fs.readdirSync(homeDir);
+    // Filter out .toml files
+    const tomlFiles = files.filter((file) => file.endsWith(".toml"));
+    if (tomlFiles.length === 0) {
+      return null;
+    }
+    // Parse the first .toml file found
+    const filePath = path.join(homeDir, tomlFiles[0]);
+    const data = fs.readFileSync(filePath, "utf-8");
     return toml.parse(data);
   } catch (err) {
     if (err.code === "ENOENT") {
@@ -32,12 +41,8 @@ function loadConfig(filepath) {
   }
 }
 
-// Define the path to the TOML config in the home directory
-const homeDir = os.homedir();
-const configFilePath = path.join(homeDir, ".config.toml");
-
 // Load configuration from the TOML config if it exists
-const config = loadConfig(configFilePath);
+const config = loadConfig();
 
 const program = new Command();
 
