@@ -1,0 +1,14 @@
+# Configuration file to set options for VShell
+# (note: values passed via arguments will override these values)
+
+# specify the model to use from GROQ : string
+model = "llama3-8b-8192"
+
+# specify the usage of token for prompt and response : boolean
+token-usage = false
+
+# stream the response to command line : boolean
+stream = false
+
+# set the temperature for the model (Groq) : float
+temperature = 0.7
