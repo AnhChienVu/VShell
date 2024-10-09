@@ -1,17 +1,23 @@
 const path = require("path");
 const fs = require("fs");
-const promtpGroq = require("../ai_config/grogConfig");
+const promptGroq = require("../ai_config/grogConfig");
+const handleDebugMessage = require("./utils/handleDebugMessage");
+const handleOutputFile = require("./utils/handleOutputFile");
 
 async function promptAI(prompt, temperature, options) {
   if (typeof temperature === "string") {
     //Convert to number
-    const tempNum = parseFloat(temperature);
-    if (isNaN(tempNum)) {
+    const temperatureNumber = parseFloat(temperature);
+
+    if (isNaN(temperatureNumber)) {
       throw new Error("Error: Temperature must be a number.");
     }
-    temperature = tempNum;
+
+    temperature = temperatureNumber;
   }
-  process.stderr.write(`Info: Prompting AI with temperature: ${temperature}\n`);
+
+  handleDebugMessage(`Prompting AI with temperature: ${temperature}.`, "Info");
+
   try {
     const { response, tokenInfo } = await initializeModel(
       prompt,
@@ -19,18 +25,14 @@ async function promptAI(prompt, temperature, options) {
       options
     );
 
-    console.log("*******************");
-    console.log(options);
-    console.log("*******************");
-
     console.log("==================");
     console.log(tokenInfo);
     console.log("==================");
 
     // Handle output
     if (options.output) {
-      process.stderr.write(`Debug: Output file: ${options.output}\n`);
-      handleOutput(response, options.output);
+      handleDebugMessage(`Output file: ${options.output}.`, "Info");
+      handleOutputFile(response, options.output);
     } else if (!options.stream) {
       process.stdout.write("\n\n" + response);
     }
@@ -40,12 +42,7 @@ async function promptAI(prompt, temperature, options) {
 }
 
 async function initializeModel(prompt, temperature, options) {
-  return await promtpGroq(prompt, temperature, options);
+  return await promptGroq(prompt, temperature, options);
 }
 
-function handleOutput(response, outputFile) {
-  process.stderr.write(`Debug: Output will be written to: ${outputFile}`);
-  const outputPath = path.resolve(outputFile);
-  fs.writeFileSync(outputPath, response);
-}
 module.exports = promptAI;

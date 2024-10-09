@@ -2,8 +2,18 @@ const { Groq } = require("groq-sdk");
 const path = require("path");
 require("dotenv").config();
 
+const handleDebugMessage = require("../src/utils/handleDebugMessage");
+
 // Intergrating with Groq
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+function getTokenUsage(usage) {
+  const promptToken = usage?.prompt_tokens || 0;
+  const completionToken = usage?.completion_tokens || 0;
+  const totalToken = usage?.total_tokens || 0;
+
+  return { promptToken, completionToken, totalToken };
+}
 
 // Export function to handle Groq-specific prompting
 async function promptGroq(prompt, temperature = 0.5, options) {
@@ -39,25 +49,22 @@ async function promptGroq(prompt, temperature = 0.5, options) {
 
       // Retrieve Token Usage from Response
       const usage = chatCompletion?.usage;
-      const promptToken = usage?.prompt_tokens || 0;
-      const completionToken = usage?.completion_tokens || 0;
-      const totalToken = usage?.total_tokens || 0;
-      const tokenInfo = { promptToken, completionToken, totalToken };
+      const tokenInfo = getTokenUsage(usage);
 
       return { response, tokenInfo };
     }
   } catch (error) {
-    process.stderr.write(
-      `Error: Error processing data with Groq: ${error}. \n`
-    );
+    handleDebugMessage(`Error processing data with Groq: ${error}.`, "Error");
   }
 }
 
 async function readStream(stream) {
   let response = "";
   let tokenInfo;
+
   for await (const chunk of stream) {
     const content = chunk.choices[0]?.delta?.content;
+
     if (content) {
       process.stdout.write(content);
       response += content;
@@ -67,10 +74,7 @@ async function readStream(stream) {
     if (chunk?.x_groq?.usage) {
       // Retrieve Token Usage from Response
       const usage = chunk?.x_groq?.usage;
-      const promptToken = usage?.prompt_tokens || 0;
-      const completionToken = usage?.completion_tokens || 0;
-      const totalToken = usage?.total_tokens || 0;
-      tokenInfo = { promptToken, completionToken, totalToken };
+      tokenInfo = getTokenUsage(usage);
     }
   }
   return { response, tokenInfo };
