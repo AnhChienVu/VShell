@@ -1,5 +1,4 @@
-const path = require("path");
-const fs = require("fs");
+/* eslint-disable no-undef */
 const promptGroq = require("../ai_config/grogConfig");
 const handleDebugMessage = require("./utils/handleDebugMessage");
 const handleOutputFile = require("./utils/handleOutputFile");
@@ -22,7 +21,7 @@ async function promptAI(prompt, temperature, options) {
     const { response, tokenInfo } = await initializeModel(
       prompt,
       temperature,
-      options
+      options,
     );
 
     console.log("==================");

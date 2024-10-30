@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const os = require("os");
 const fs = require("fs");
 const toml = require("smol-toml");
@@ -17,7 +18,7 @@ class ConfigHandler {
 
     // Filter out .toml files
     const tomlFiles = files.filter(
-      (file) => file.endsWith(".toml") && file.startsWith(".")
+      (file) => file.endsWith(".toml") && file.startsWith("."),
     );
     return tomlFiles;
   }
@@ -31,7 +32,7 @@ class ConfigHandler {
             You need to create a .toml file in your home directory to use the CLI
             Or you need to provide argumnents to the CLI
             Program still running with default configuration for model and temperature`,
-          "Warning"
+          "Warning",
         );
         return null;
       }
@@ -49,7 +50,7 @@ class ConfigHandler {
         // If the file exists but parsing fails, throw an error
         handleDebugMessage(
           `Failed to parse the TOML config file: ${err.message}`,
-          "Error"
+          "Error",
         );
         process.exit(1); // Exit the process with an error status
       }

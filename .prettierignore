@@ -1,0 +1,9 @@
+# Ignore artifacts:
+build
+coverage
+.env
+.github/
+node_modules/
+.toml
+examples/
+.eslintignore

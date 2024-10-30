@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-undef */
 const { Command } = require("commander");
 require("dotenv").config();
 
@@ -31,18 +32,18 @@ program
   .option(
     "-m, --model",
     "specify the model to use <model>",
-    config?.model || "llama3-8b-8192"
+    config?.model || "llama3-8b-8192",
   )
   .option(
     "-t, --token-usage",
-    "specify the usage of token for prompt and response"
+    "specify the usage of token for prompt and response",
   )
   .option("-s, --stream", "stream the response live as it updates")
   .option(
     "-T, --temperature <number>",
     "set the temperature for the model (Groq)",
     parseFloat,
-    config?.temperature || 0.7 // Fallback to config or default to 0.7
+    config?.temperature || 0.7, // Fallback to config or default to 0.7
   );
 
 // Define a command to handle file inputs
@@ -57,7 +58,7 @@ program
       if (options.debug) {
         handleDebugMessage(
           "No files specified. Please provide at least 1 file.",
-          "Debug"
+          "Debug",
         );
       }
       process.exit(1);

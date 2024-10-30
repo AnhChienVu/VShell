@@ -7,7 +7,9 @@
     "vshell": "src/server.js"
   },
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "format": "prettier --write .",
+    "lint": "eslint ."
   },
   "author": "Anh Chien Vu",
   "license": "ISC",
@@ -17,5 +19,11 @@
     "glob": "^11.0.0",
     "groq-sdk": "^0.7.0",
     "smol-toml": "^1.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0",
+    "prettier": "3.3.3"
   }
 }

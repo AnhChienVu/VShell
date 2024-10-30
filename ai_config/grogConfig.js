@@ -1,5 +1,5 @@
+/* eslint-disable no-undef */
 const { Groq } = require("groq-sdk");
-const path = require("path");
 require("dotenv").config();
 
 const handleDebugMessage = require("../src/utils/handleDebugMessage");
