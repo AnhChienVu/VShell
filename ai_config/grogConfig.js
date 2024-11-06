@@ -62,22 +62,24 @@ async function readStream(stream) {
   let response = "";
   let tokenInfo;
 
-  for await (const chunk of stream) {
-    const content = chunk.choices[0]?.delta?.content;
+  if (stream) {
+    for await (const chunk of stream) {
+      const content = chunk.choices[0]?.delta?.content;
 
-    if (content) {
-      process.stdout.write(content);
-      response += content;
-    }
+      if (content) {
+        process.stdout.write(content);
+        response += content;
+      }
 
-    // The last chunk will contain the usage information
-    if (chunk?.x_groq?.usage) {
-      // Retrieve Token Usage from Response
-      const usage = chunk?.x_groq?.usage;
-      tokenInfo = getTokenUsage(usage);
+      // The last chunk will contain the usage information
+      if (chunk?.x_groq?.usage) {
+        // Retrieve Token Usage from Response
+        const usage = chunk?.x_groq?.usage;
+        tokenInfo = getTokenUsage(usage);
+      }
     }
   }
   return { response, tokenInfo };
 }
 
-module.exports = promptGroq;
+module.exports = { promptGroq, readStream };

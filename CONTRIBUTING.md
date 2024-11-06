@@ -12,6 +12,7 @@ All types of contributions are encouraged and valued. See the Table of Contents 
 4. [Configurations with Toml file](#configuration-with-toml)
 5. [Prettier Installation and Configuration](#prettier-installation-and-configuration)
 6. [Eslint Installation and Configuration](#eslint-installation-and-configuration)
+7. [How to run Tests](#how-to-run-tests)
 
 ## I have a question
 
@@ -125,3 +126,50 @@ Run: `npm run lint`
 
 4. Notes:
    Because this project is using the Eslint version 9.x so all of its configuration will be in `eslint.config.mjs` file only. If you need to add any configuration to eslint rule then just go to that file.
+
+## How to run Tests
+
+1. Running your tests can become tedious if you have to always run every test. What if you are working on a particular file/function, and want to run a single test over and over again while you fix a bug?
+
+- You can run a single test: By adding `.only` in the test that you want to run it only
+
+  Example:
+
+  ```javascript
+  test.only("should test something important", () => {
+    expect(true).toBe(true);
+  });
+  ```
+
+- You can run a single test suite: By specify that test suite's name that you want to run
+
+  Example:
+
+  ```bash
+  npm run test-watch configHandler
+  ```
+
+- You can have your test runner watch for changes and run tests automatically when the test or source code is updated: By create a script inside `package.json` file
+
+  Example:
+
+  ```javascript
+  // package.json
+  "scripts": {
+     "test-watch": "jest --watch --"
+  }
+  ```
+
+2. Where the test should be written?
+
+- You should follow the way of test structure written in this project. Every test file is always written at the same level of the code file
+
+  Example:
+
+  Source code file path: ./src/utils/configHandler.js
+
+  Test file path: ./src/utils/configHandler.test.js
+
+- To clean the jest cache. You can use the script: `npm run test-clear`
+
+**Remember**: tests should be small. Don't write a test that tests everything. Slowly work toward testing everything by testing all the little things one by one. Eventually you'll have covered everything.

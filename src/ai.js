@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const promptGroq = require("../ai_config/grogConfig");
+const { promptGroq } = require("../ai_config/grogConfig");
 const handleDebugMessage = require("./utils/handleDebugMessage");
 const handleOutputFile = require("./utils/handleOutputFile");
 
