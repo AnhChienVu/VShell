@@ -30,7 +30,7 @@ describe("Testing ai.js", () => {
 
   test("should throw error if parsed temperature is NaN type", async () => {
     await expect(promptAI("test prompt", "invalid", {})).rejects.toThrow(
-      "Error: Temperature must be a NUMBER.",
+      "Error: Temperature must be a number.",
     );
   });
 
