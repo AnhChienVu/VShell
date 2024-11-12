@@ -13,6 +13,7 @@ All types of contributions are encouraged and valued. See the Table of Contents 
 5. [Prettier Installation and Configuration](#prettier-installation-and-configuration)
 6. [Eslint Installation and Configuration](#eslint-installation-and-configuration)
 7. [How to run Tests](#how-to-run-tests)
+8. [Continous Integration](#Continuos Integration)
 
 ## I have a question
 
@@ -173,3 +174,7 @@ Run: `npm run lint`
 - To clean the jest cache. You can use the script: `npm run test-clear`
 
 **Remember**: tests should be small. Don't write a test that tests everything. Slowly work toward testing everything by testing all the little things one by one. Eventually you'll have covered everything.
+
+## Continuous Integration
+
+To keep the default branch working all times, I implemented a CI pipeline that will automatically run all tests when contributors create a Pull Request or want to get merged in `main` branch. Then, make sure that you code pass and get the green check mark to be merged
