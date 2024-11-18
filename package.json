@@ -1,12 +1,13 @@
 {
   "name": "vshell",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "It is a CLI tool that will process input source files with an LLM to generate an output",
   "main": "src/server.js",
   "bin": {
     "vshell": "src/server.js"
   },
   "scripts": {
+    "build": "node build.js",
     "start": "node src/server.js",
     "format": "prettier --write .",
     "lint": "eslint .",
