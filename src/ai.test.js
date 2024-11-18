@@ -55,4 +55,15 @@ describe("Testing ai.js", () => {
 
     await expect(promptAI("test prompt", "0.5", {})).rejects.toThrow("Error");
   });
+  
+  test("should return token info", async () =>{
+    const logSpy = jest.spyOn(console, 'log');
+    promptGroq.mockResolvedValue({
+      response: "AI response",
+      tokenInfo: "Token Info",
+    });
+
+    await promptAI("test prompt", "0.5", {});
+    expect(logSpy).toHaveBeenCalledWith("Token Info");
+  });
 });
