@@ -2,7 +2,7 @@
 const { Groq } = require("groq-sdk");
 require("dotenv").config();
 
-const handleDebugMessage = require("../src/utils/handleDebugMessage");
+const handleDebugMessage = require("../utils/handleDebugMessage");
 
 // Intergrating with Groq
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });

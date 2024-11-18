@@ -1,8 +1,8 @@
 const nock = require("nock");
 const { promptGroq, readStream } = require("./grogConfig.js");
-const handleDebugMessage = require("../src/utils/handleDebugMessage");
+const handleDebugMessage = require("../utils/handleDebugMessage");
 
-jest.mock("../src/utils/handleDebugMessage");
+jest.mock("../utils/handleDebugMessage");
 
 describe("Test the grogConfig file", () => {
   beforeEach(() => {

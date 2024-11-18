@@ -1,9 +1,9 @@
 const promptAI = require("./ai");
-const { promptGroq } = require("../ai_config/grogConfig");
+const { promptGroq } = require("./ai_config/grogConfig");
 const handleDebugMessage = require("./utils/handleDebugMessage");
 const handleOutputFile = require("./utils/handleOutputFile");
 
-jest.mock("../ai_config/grogConfig", () => ({
+jest.mock("./ai_config/grogConfig", () => ({
   promptGroq: jest.fn(),
 }));
 jest.mock("./utils/handleDebugMessage", () => {
@@ -55,9 +55,9 @@ describe("Testing ai.js", () => {
 
     await expect(promptAI("test prompt", "0.5", {})).rejects.toThrow("Error");
   });
-  
-  test("should return token info", async () =>{
-    const logSpy = jest.spyOn(console, 'log');
+
+  test("should return token info", async () => {
+    const logSpy = jest.spyOn(console, "log");
     promptGroq.mockResolvedValue({
       response: "AI response",
       tokenInfo: "Token Info",
