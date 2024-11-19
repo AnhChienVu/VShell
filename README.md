@@ -16,30 +16,24 @@ https://github.com/user-attachments/assets/cd0679f1-82b6-4547-9291-a6374744fd70
 - Supports the use of a .env file to configure API keys and other setup values automatically.
 - Allows optional configuration of model parameters such as temperature for chat completion processing through a configuration file.
 
-# Usage
+# Installation
 
-Essentially, if you are using Node.js, you have to run it by:
-`node server.js file_name(s) <arguements>`
-So if you do not want to write node server.js everytime you run, instead using vshell, you can follow these instructions below:
+- Step 1: Install package
 
-1. Ensure Your Project is Set Up: Make sure you have your project files ready, including server.js and .env.
-2. Add a bin Field to package.json: Ensure your package.json has a bin field that points to your server.js file. Here’s an example:
-   ```
-   {
-     "bin": {
-    "vshell": "src/server.js"
-     },
-     "scripts": {
-    "start": "node src/server.js"
-     },
-   }
-   ```
-3. Ensure the server.js file has executable permissions:
-   `chmod +x server.js`
-4. Use npm link to create a global symlink for your package:
-   `npm link`
-5. To run VShell, use the following command:
-   `vshell file_name(s) <arguements>`
+  `npm install vshell`
+
+- Step 2: Create `.env` file and create `GROQ_API_KEY`
+
+  ```
+  GROQ_API_KEY=<your_api_key>
+  ```
+
+# How to use
+
+There are some examples included in the `Code` section of this package on [npmjs](https://www.npmjs.com/package/vshell?activeTab=code). Or you can run it using one of your own files placed in the root directory, or any other directory you might make
+
+To run VShell, use the following command syntax:
+`vshell file_name(s) <options>`
 
 # Options
 
@@ -52,6 +46,29 @@ So if you do not want to write node server.js everytime you run, instead using v
 - -h, --help : Display help for VShell commands.
 - -t, --token-usage : Speicfy specify the usage of token for prompt and response
 - -s, --stream: Stream the output to `stdout` in real time
+
+# TOML config
+
+VShell supports reading a `.toml` configuration file in the user's home directory to use as pre-set options when provided
+
+If you do not want to provide `options` when typing on command line, then create a `.config.toml` in the home directory, and provide options to use:
+
+```
+# temperature <number>: Set model temperature (0.1 to 2)
+temperature = 0.5
+
+# output: Specify output file to save result
+output = output.md
+
+# tokenUsage <boolean>: Get token usage information
+tokenUsage = true
+
+# debug <boolean>: Enable detailed debug message
+debug = true
+
+# stream <boolean>: Stream the output to console screen
+stream = true
+```
 
 # Example
 
