@@ -1,6 +1,6 @@
 {
   "name": "vshell",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "It is a CLI tool that will process input source files with an LLM to generate an output",
   "main": "src/server.js",
   "bin": {
