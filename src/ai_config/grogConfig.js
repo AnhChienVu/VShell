@@ -22,7 +22,8 @@ async function promptGroq(prompt, temperature = 0.5, options) {
       messages: [
         {
           role: "system",
-          content: "you are a AI helpful assistant",
+          content:
+            "You are an AI helpful assistant. Your task is to take the code from each file sent and produce a comprehensive response in markdown format explaining the code.",
         },
         {
           role: "user",
