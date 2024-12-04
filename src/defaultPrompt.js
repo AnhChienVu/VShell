@@ -1,5 +1,5 @@
 // src/defaultPrompt.js
-
+// Reference: https://github.com/peterdanwan/gimme_readme/blob/main/src/prompt/defaultPrompt.js
 const defaultPrompt = `Take the code from each file sent and produce a comprehensive response in markdown format explaining the code.
 
 ## Structure Requirements:
